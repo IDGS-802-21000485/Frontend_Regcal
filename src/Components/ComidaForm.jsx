@@ -38,7 +38,7 @@ export default function ComidaForm({ onComidaRegistrada }) {
     };
 
     try {
-      await axios.post('http://localhost:5000/api/comidas', body);
+      await axios.post('https://backend-regcal.onrender.com/api/comidas', body);
       alert('Comida registrada correctamente');
       onComidaRegistrada(); // para recargar la lista
       setTitle('');

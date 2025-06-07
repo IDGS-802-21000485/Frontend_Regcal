@@ -1,6 +1,6 @@
 import './App.css';
 import ComidaForm from './components/ComidaForm';
-import ListaComidas from './components/ListaComida';
+import ListaComidas from './components/ListaComidas';
 import CaloriasHoy from './components/CaloriasHoy';
 
 function App() {

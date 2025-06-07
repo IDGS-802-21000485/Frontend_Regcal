@@ -8,7 +8,7 @@ export default function ListaComidas() {
   const cargarComidas = async () => {
     try {
       const fecha = new Date().toISOString().slice(0, 10);
-      const res = await axios.get(`http://localhost:5000/api/comidas/dia?usuarioId=usuario123&fecha=${fecha}`);
+      const res = await axios.get(`https://backend-regcal.onrender.com/api/comidas/dia?usuarioId=usuario123&fecha=${fecha}`);
       setComidas(res.data);
     } catch (err) {
       console.error(err);

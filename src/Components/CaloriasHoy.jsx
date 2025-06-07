@@ -8,7 +8,7 @@ export default function CaloriasHoy() {
     const fecha = new Date().toISOString().slice(0, 10);
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/comidas/dia?usuarioId=usuario123&fecha=${fecha}`
+        `https://backend-regcal.onrender.com/api/comidas/dia?usuarioId=usuario123&fecha=${fecha}`
       );
       const comidas = res.data;
       const totalCalorias = comidas.reduce((sum, c) => sum + (c.calorias || 0), 0);
