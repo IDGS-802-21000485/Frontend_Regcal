@@ -7,10 +7,12 @@ body {
 }
 
 .container {
-  max-width: 800px;
+  width: 100%;
+  max-width: 1200px; /* antes 800px */
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1.5rem;
 }
+
 
 h1 {
   text-align: center;
