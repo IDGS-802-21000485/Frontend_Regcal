@@ -22,7 +22,7 @@ export default function Historial() {
     setSeleccionado(fecha);
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/comidas/dia?usuarioId=usuario123&fecha=${fecha}`
+        `https://backend-regcal.onrender.com/api/comidas/dia?usuarioId=usuario123&fecha=${fecha}`
       );
       setComidas(res.data);
     } catch (err) {
