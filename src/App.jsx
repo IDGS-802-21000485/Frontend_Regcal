@@ -1,7 +1,7 @@
 import './App.css';
-import ComidaForm from './components/ComidaForm';
+import ComidaForm from './Components/ComidaForm';
 import ListaComidas from './Components/ListaComida';
-import CaloriasHoy from './components/CaloriasHoy';
+import CaloriasHoy from './Components/CaloriasHoy';
 
 function App() {
   const recargar = () => window.location.reload();
