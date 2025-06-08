@@ -7,7 +7,7 @@ export default function Registro() {
 
   return (
     <>
-      <h1>RegCal 🍽️</h1>
+      <h1>Registro de alimentos 🍽️</h1>
       <CaloriasHoy />
       <ComidaForm onComidaRegistrada={recargar} />
       <ListaComidas />
