@@ -19,8 +19,6 @@ export default function Navbar() {
 
       <ul className={`nav-links ${menuAbierto ? 'activo' : ''}`}>
         <li><Link to="/">Registrar</Link></li>
-        <li><Link to="/comidas">Comidas</Link></li>
-        <li><Link to="/calorias">Calorías</Link></li>
         <li><Link to="/historial">Historial</Link></li>
       </ul>
     </nav>
