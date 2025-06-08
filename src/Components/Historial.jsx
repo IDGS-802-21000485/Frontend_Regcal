@@ -8,6 +8,7 @@ export default function Historial() {
   const [seleccionado, setSeleccionado] = useState(null);
   const [comidas, setComidas] = useState([]);
 
+  
   useEffect(() => {
     const hoy = new Date();
     const ultimos7Dias = [...Array(7)].map((_, i) => {

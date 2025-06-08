@@ -4,8 +4,16 @@ import axios from 'axios';
 export default function CaloriasHoy() {
   const [total, setTotal] = useState(0);
 
+  function obtenerFechaLocal() {
+  const fecha = new Date();
+  const offset = fecha.getTimezoneOffset(); // minutos entre UTC y tu zona
+  const local = new Date(fecha.getTime() - offset * 60 * 1000);
+  return local.toISOString().slice(0, 10); // ya en hora local
+}
+
+
   const obtenerCalorias = async () => {
-    const fecha = new Date().toISOString().slice(0, 10);
+    const fecha = obtenerFechaLocal();
     try {
       const res = await axios.get(
         `https://backend-regcal.onrender.com/api/comidas/dia?usuarioId=usuario123&fecha=${fecha}`

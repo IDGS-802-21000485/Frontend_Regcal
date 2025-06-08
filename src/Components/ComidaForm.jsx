@@ -23,6 +23,15 @@ export default function ComidaForm({ onComidaRegistrada }) {
     }
   };
 
+  function obtenerFechaLocal() {
+  const fecha = new Date();
+  const offset = fecha.getTimezoneOffset(); // minutos entre UTC y tu zona
+  const local = new Date(fecha.getTime() - offset * 60 * 1000);
+  return local.toISOString().slice(0, 10); // ya en hora local
+}
+
+
+
   const enviar = async () => {
     const listaIngredientes = ingredientes
       .split('\n')
@@ -31,7 +40,7 @@ export default function ComidaForm({ onComidaRegistrada }) {
 
     const body = {
       usuarioId: 'usuario123',
-      fecha: new Date().toISOString().slice(0, 10),
+      fecha: obtenerFechaLocal(),
       title,
       ingredientes: listaIngredientes,
       foto: fotoBase64,
