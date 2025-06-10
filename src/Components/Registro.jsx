@@ -1,58 +1,58 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useState } from "react";
+import axios from "axios";
+import "./Auth.css";
 
-export default function Registro() {
+export default function RegistroForm({ onRegistrado }) {
   const [form, setForm] = useState({
-    nombre: '',
-    email: '',
-    password: '',
-    fechaNacimiento: '',
-    estatura: '',
-    peso: '',
-    actividad: 'sedentario',
-    objetivo: 'ligero',
+    nombre: "",
+    email: "",
+    contrasenia: "",
+    fechaNacimiento: "",
+    estatura: "",
+    peso: "",
+    actividad: "sedentario",
+    objetivo: "ligero",
   });
 
-  const handleChange = e => {
+  const actualizar = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const enviar = async () => {
     try {
-      await axios.post('https://backend-regcal.onrender.com/api/auth/register', form);
-      alert('Cuenta creada exitosamente');
-      setForm({ nombre: '', email: '', password: '', fechaNacimiento: '', estatura: '', peso: '', actividad: 'sedentario', objetivo: 'ligero' });
+      await axios.post("https://backend-regcal.onrender.com/api/auth/registro", form);
+      alert("Cuenta creada con éxito");
+      onRegistrado();
     } catch (err) {
-      alert(err.response?.data?.mensaje || 'Error al registrar');
+      alert("Error al registrar");
     }
   };
 
   return (
-    <div className="formulario">
+    <div className="auth-form">
       <h2>Crear cuenta</h2>
-      <input type="text" name="nombre" placeholder="Nombre completo" value={form.nombre} onChange={handleChange} />
-      <input type="email" name="email" placeholder="Correo" value={form.email} onChange={handleChange} />
-      <input type="password" name="password" placeholder="Contraseña" value={form.password} onChange={handleChange} />
-      <input type="date" name="fechaNacimiento" value={form.fechaNacimiento} onChange={handleChange} />
-      <input type="number" name="estatura" placeholder="Estatura (cm)" value={form.estatura} onChange={handleChange} />
-      <input type="number" name="peso" placeholder="Peso (kg)" value={form.peso} onChange={handleChange} />
-      
-      <label>Actividad:</label>
-      <select name="actividad" value={form.actividad} onChange={handleChange}>
+      <input type="text" placeholder="Nombre completo" name="nombre" onChange={actualizar} />
+      <input type="email" placeholder="Correo electrónico" name="email" onChange={actualizar} />
+      <input type="password" placeholder="Contraseña" name="contrasenia" onChange={actualizar} />
+      <input type="date" name="fechaNacimiento" onChange={actualizar} />
+      <input type="number" placeholder="Estatura (cm)" name="estatura" onChange={actualizar} />
+      <input type="number" placeholder="Peso (kg)" name="peso" onChange={actualizar} />
+
+      <label>Actividad física:</label>
+      <select name="actividad" onChange={actualizar}>
         <option value="sedentario">Sedentario</option>
         <option value="ligero">Ligero</option>
         <option value="moderado">Moderado</option>
-        <option value="activo">Activo</option>
-        <option value="muy_activo">Muy activo</option>
+        <option value="intenso">Intenso</option>
       </select>
 
       <label>Objetivo:</label>
-      <select name="objetivo" value={form.objetivo} onChange={handleChange}>
-        <option value="ligero">Déficit ligero (-300 kcal)</option>
-        <option value="pesado">Déficit pesado (-500 kcal)</option>
+      <select name="objetivo" onChange={actualizar}>
+        <option value="ligero">Déficit ligero (300 kcal)</option>
+        <option value="pesado">Déficit fuerte (500 kcal)</option>
       </select>
 
-      <button onClick={enviar}>Registrarse</button>
+      <button onClick={enviar}>Crear cuenta</button>
     </div>
   );
 }

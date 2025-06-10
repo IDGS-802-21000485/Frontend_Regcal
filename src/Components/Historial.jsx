@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Historial.css";
 
-export default function Historial() {
+export default function Historial({ usuarioId }) {
   const [dias, setDias] = useState([]);
   const [seleccionado, setSeleccionado] = useState(null);
   const [comidas, setComidas] = useState([]);
   const [semanaOffset, setSemanaOffset] = useState(0);
   const [numeroSemana, setNumeroSemana] = useState(1);
-
+console.log("Usuario:", usuarioId);
   useEffect(() => {
     generarSemana(0);
   }, []);
@@ -53,7 +53,7 @@ export default function Historial() {
     setSeleccionado(fecha);
     try {
       const res = await axios.get(
-        `https://backend-regcal.onrender.com/api/comidas/dia?usuarioId=usuario123&fecha=${fecha}`
+        `https://backend-regcal.onrender.com/api/comidas/dia?usuarioId=${usuarioId}&fecha=${fecha}`
       );
       setComidas(res.data);
     } catch (err) {

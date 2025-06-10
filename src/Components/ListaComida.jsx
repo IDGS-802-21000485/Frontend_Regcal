@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function ListaComidas() {
+export default function ListaComidas({usuarioId}) {
   const [comidas, setComidas] = useState([]);
   const [comidaSeleccionada, setComidaSeleccionada] = useState(null);
-
   function obtenerFechaLocal() {
   const fecha = new Date();
   const offset = fecha.getTimezoneOffset(); // minutos entre UTC y tu zona
@@ -15,7 +14,7 @@ export default function ListaComidas() {
   const cargarComidas = async () => {
     try {
       const fecha = obtenerFechaLocal();
-      const res = await axios.get(`https://backend-regcal.onrender.com/api/comidas/dia?usuarioId=usuario123&fecha=${fecha}`);
+      const res = await axios.get(`https://backend-regcal.onrender.com/api/comidas/dia?usuarioId=${usuarioId}&fecha=${fecha}`);
       setComidas(res.data);
     } catch (err) {
       console.error(err);

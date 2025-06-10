@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function CaloriasHoy() {
+export default function CaloriasHoy({ usuarioId }) {
   const [total, setTotal] = useState(0);
 
   function obtenerFechaLocal() {
@@ -16,7 +16,7 @@ export default function CaloriasHoy() {
     const fecha = obtenerFechaLocal();
     try {
       const res = await axios.get(
-        `https://backend-regcal.onrender.com/api/comidas/dia?usuarioId=usuario123&fecha=${fecha}`
+        `https://backend-regcal.onrender.com/api/comidas/dia?usuarioId=${usuarioId}&fecha=${fecha}`
       );
       const comidas = res.data;
       const totalCalorias = comidas.reduce((sum, c) => sum + (c.calorias || 0), 0);

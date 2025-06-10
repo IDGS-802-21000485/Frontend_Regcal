@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-export default function ComidaForm({ onComidaRegistrada }) {
+export default function ComidaForm({ onComidaRegistrada, usuarioId }) {
   const [modoIngreso, setModoIngreso] = useState('automatico');
   const [title, setTitle] = useState('');
   const [ingredientes, setIngredientes] = useState('');
@@ -35,7 +35,7 @@ export default function ComidaForm({ onComidaRegistrada }) {
   const enviar = async () => {
     const fecha = obtenerFechaLocal();
     const body = {
-      usuarioId: 'usuario123',
+      usuarioId,
       fecha,
       title,
       foto: fotoBase64,

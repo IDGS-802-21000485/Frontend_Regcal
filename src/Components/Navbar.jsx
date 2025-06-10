@@ -1,25 +1,16 @@
 // src/components/Navbar.jsx
-import { useState } from 'react';
-import './Navbar.css';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import "./Navbar.css";
 
-
-export default function Navbar() {
-  const [menuAbierto, setMenuAbierto] = useState(false);
-
-  const toggleMenu = () => setMenuAbierto(!menuAbierto);
-
+// Navbar.jsx
+export default function Navbar({ onSalir, onNavegar }) {
   return (
     <nav className="navbar">
-      <div className="logo">RegCal 🍽️</div>
-
-      <button className="menu-toggle" onClick={toggleMenu}>
-        ☰
-      </button>
-
-      <ul className={`nav-links ${menuAbierto ? 'activo' : ''}`}>
-        <li><Link to="/">Registrar</Link></li>
-        <li><Link to="/historial">Historial</Link></li>
+      <div className="logo">🍽️ RegCal</div>
+      <ul className="nav-links">
+        <li><a href="#" onClick={() => onNavegar('app')}>Registro</a></li>
+        <li><a href="#" onClick={() => onNavegar('historial')}>Historial</a></li>
+        <li><a href="#" onClick={onSalir}>Salir</a></li>
       </ul>
     </nav>
   );
