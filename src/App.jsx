@@ -10,6 +10,7 @@ import Historial from './Components/Historial';
 import './App.css'; // Asegúrate de tener un archivo CSS para estilos
 
 function App() {
+  const recargar = () => window.location.reload();
   const [usuario, setUsuario] = useState(null);
 
   useEffect(() => {
@@ -48,7 +49,7 @@ function App() {
           usuario ? (
             <MainLayout usuario={usuario} onSalir={cerrarSesion}>
               <CaloriasHoy usuarioId={usuario._id} />
-              <ComidaForm usuarioId={usuario._id} />
+              <ComidaForm onComidaRegistrada={recargar} usuarioId={usuario._id} />
               <ListaComidas usuarioId={usuario._id} />
             </MainLayout>
           ) : (

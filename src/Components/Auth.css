@@ -213,3 +213,36 @@ body {
     padding-bottom: 2rem;
   }
 }
+
+/* Estilos para el botón de volver */
+.back-button {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  background: none;
+  border: none;
+  color: #3498db;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  color: #2980b9;
+  transform: translateX(-2px);
+}
+
+.back-button:disabled {
+  color: #95a5a6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Ajuste para el formulario con el botón de volver */
+.auth-form {
+  position: relative;
+  padding-top: 3rem; /* Más espacio arriba para el botón */
+}

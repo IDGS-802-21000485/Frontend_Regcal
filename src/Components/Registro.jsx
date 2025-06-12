@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 import "./Auth.css";
 
 export default function RegistroForm({ onRegistrado }) {
@@ -15,9 +16,14 @@ export default function RegistroForm({ onRegistrado }) {
   });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const actualizar = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const volverALogin = () => {
+    navigate('/login');
   };
 
   const enviar = async (e) => {
@@ -37,7 +43,15 @@ export default function RegistroForm({ onRegistrado }) {
       
       if (response.status >= 200 && response.status < 300) {
         alert("Cuenta creada con éxito");
-        onRegistrado();
+        // Redirige al login después de 1.5 segundos
+        setTimeout(() => {
+          navigate('/login');
+        }, 1500);
+        
+        // Llama a la función de callback si existe
+        if (onRegistrado) {
+          onRegistrado();
+        }
       }
     } catch (err) {
       const errorMessage = err.response?.data?.message || 
@@ -54,6 +68,15 @@ export default function RegistroForm({ onRegistrado }) {
     <div className="auth-container">
       <div className="auth-form-wrapper">
         <div className="auth-form">
+          {/* Botón de volver */}
+          <button 
+            onClick={volverALogin}
+            className="back-button"
+            disabled={loading}
+          >
+            &larr; Volver al login
+          </button>
+          
           <h2>Crear cuenta</h2>
           <p className="form-subtitle">Completa tus datos para comenzar</p>
           
