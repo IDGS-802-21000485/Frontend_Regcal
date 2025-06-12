@@ -1,17 +1,29 @@
-// src/components/Navbar.jsx
-import { Link } from "react-router-dom";
-import "./Navbar.css";
+import { Link } from 'react-router-dom';
+import './Navbar.css';
 
-// Navbar.jsx
-export default function Navbar({ onSalir, onNavegar }) {
+export default function Navbar({ usuario, onSalir }) {
   return (
-    <nav className="navbar">
-      <div className="logo">🍽️ RegCal</div>
-      <ul className="nav-links">
-        <li><a href="#" onClick={() => onNavegar('app')}>Registro</a></li>
-        <li><a href="#" onClick={() => onNavegar('historial')}>Historial</a></li>
-        <li><a href="#" onClick={onSalir}>Salir</a></li>
-      </ul>
+    <nav className="navbar-container">
+      <div className="navbar-brand">
+        <Link to="/">RegCal 🍽️</Link>
+      </div>
+      
+      <div className="navbar-links">
+        <Link to="/" className="nav-link">Inicio</Link>
+        <Link to="/historial" className="nav-link">Historial</Link>
+      </div>
+      
+      {usuario && (
+        <div className="user-section">
+          <div className="user-info">
+            <span className="user-name">{usuario.nombre || usuario.email.split('@')[0]}</span>
+            <span className="user-email">{usuario.email}</span>
+          </div>
+          <button onClick={onSalir} className="logout-button">
+            Cerrar sesión
+          </button>
+        </div>
+      )}
     </nav>
   );
 }

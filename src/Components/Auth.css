@@ -1,111 +1,215 @@
-.auth-form {
-  max-width: 400px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.06);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+/* Auth.css - Versión móvil optimizada */
+
+/* Reset y estilos base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.auth-form h2 {
-  color: #2e7d32;
-  text-align: center;
+html, body {
+  height: 100%;
+  overflow-x: hidden;
 }
 
-.auth-form input,
-.auth-form select {
-  padding: 0.6rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f5f7fa;
 }
 
-.auth-form button {
-  background: #388e3c;
-  color: white;
-  padding: 0.7rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.auth-form button:hover {
-  background: #2e7d32;
-}
-
-
-/* Auth.css */
+/* Contenedor principal - solución para scroll */
 .auth-container {
   display: flex;
   justify-content: center;
-  align-items: center;
   min-height: 100vh;
-  background-color: #f5f5f5;
+  padding: 1rem;
+  width: 100%;
 }
 
+.auth-form-wrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+}
+
+/* Formulario */
 .auth-form {
   background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
+  margin: 0 auto 2rem;
 }
 
 .auth-form h2 {
-  margin-bottom: 1.5rem;
-  color: #333;
+  color: #2c3e50;
   text-align: center;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
 }
 
+.form-subtitle {
+  text-align: center;
+  color: #7f8c8d;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+/* Grupos de formulario */
 .form-group {
-  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
 }
 
 .form-group label {
-  display: block;
   margin-bottom: 0.5rem;
-  color: #555;
+  font-weight: 500;
+  color: #2c3e50;
+  font-size: 0.9rem;
 }
 
-.auth-form input {
-  width: 100%;
-  padding: 0.75rem;
+/* Campos de entrada */
+.auth-form input,
+.auth-form select {
+  padding: 0.75rem 1rem;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 1rem;
+  transition: all 0.2s ease;
+  background-color: #f8f9fa;
+  width: 100%;
 }
 
-.auth-form button {
+.auth-form input:focus,
+.auth-form select:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  background-color: white;
+}
+
+/* Select personalizado */
+.auth-form select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+}
+
+/* Botón de submit */
+.submit-button {
   width: 100%;
-  padding: 0.75rem;
-  background-color: #4CAF50;
+  padding: 1rem;
+  margin-top: 1rem;
+  background-color: #2c3e50;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
-  margin-top: 1rem;
+  transition: all 0.2s ease;
 }
 
-.auth-form button:hover {
-  background-color: #45a049;
+.submit-button:hover {
+  background-color: #1a252f;
 }
 
-.auth-form button:disabled {
-  background-color: #cccccc;
+.submit-button:disabled {
+  background-color: #95a5a6;
   cursor: not-allowed;
 }
 
+.spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 0.5rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Mensaje de error */
 .error-message {
-  color: #d32f2f;
-  background-color: #fde8e8;
-  padding: 0.75rem;
-  border-radius: 4px;
-  margin-bottom: 1rem;
+  color: #e74c3c;
+  background-color: #fdecea;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
   font-size: 0.9rem;
+  border-left: 4px solid #e74c3c;
+}
+
+/* Media queries para móviles */
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 0;
+    align-items: flex-start;
+    min-height: 100vh;
+    height: auto;
+  }
+  
+  .auth-form-wrapper {
+    height: 100vh;
+    overflow-y: auto;
+  }
+  
+  .auth-form {
+    border-radius: 0;
+    min-height: 100vh;
+    box-shadow: none;
+    padding: 1.5rem 1rem;
+  }
+  
+  .submit-button {
+    margin-bottom: 2rem;
+  }
+}
+/* Añadir estas reglas al final de tu Auth.css */
+
+.auth-footer {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.text-button {
+  background: none;
+  border: none;
+  color: #3498db;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0;
+  margin-left: 0.25rem;
+  text-decoration: underline;
+}
+
+.text-button:hover {
+  color: #2980b9;
+}
+
+/* Asegurar que el login tenga el mismo alto que el registro */
+.auth-form {
+  min-height: auto; /* Sobrescribe el min-height: 100vh del registro */
+}
+
+@media (max-width: 480px) {
+  .auth-form {
+    min-height: auto;
+    padding-bottom: 2rem;
+  }
 }

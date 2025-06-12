@@ -7,6 +7,7 @@ export default function ComidaForm({ onComidaRegistrada, usuarioId }) {
   const [ingredientes, setIngredientes] = useState('');
   const [fotoBase64, setFotoBase64] = useState(null);
   const [calorias, setCalorias] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const convertirBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -33,6 +34,7 @@ export default function ComidaForm({ onComidaRegistrada, usuarioId }) {
   }
 
   const enviar = async () => {
+    setLoading(true);
     const fecha = obtenerFechaLocal();
     const body = {
       usuarioId,
@@ -65,81 +67,85 @@ export default function ComidaForm({ onComidaRegistrada, usuarioId }) {
     } catch (error) {
       console.error(error);
       alert('Error al registrar comida');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="formulario">
-      <h2 style={{ color: '#388e3c', marginBottom: '1rem' }}>🥗 Registrar nueva comida</h2>
+    <div className="form-container">
+      <div className="form-card">
+        <h2>🥗 Registrar nueva comida</h2>
 
-      <label style={{ fontWeight: 'bold' }}>Modo de ingreso:</label>
-      <select
-        value={modoIngreso}
-        onChange={(e) => setModoIngreso(e.target.value)}
-        style={{ width: '100%', padding: '0.6rem', marginBottom: '1rem', borderRadius: '6px', border: '1px solid #ccc' }}
-      >
-        <option value="automatico">Usar inteligencia artificial</option>
-        <option value="manual">Ingreso manual</option>
-      </select>
+        <div className="form-group">
+          <label>Modo de ingreso:</label>
+          <select
+            value={modoIngreso}
+            onChange={(e) => setModoIngreso(e.target.value)}
+          >
+            <option value="automatico">Usar inteligencia artificial</option>
+            <option value="manual">Ingreso manual</option>
+          </select>
+        </div>
 
-      <label style={{ fontWeight: 'bold' }}>Título de la comida:</label>
-      <input
-        type="text"
-        placeholder="Ej. Sándwich de pollo"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        style={{ width: '100%', padding: '0.6rem', marginBottom: '1rem', borderRadius: '6px', border: '1px solid #ccc' }}
-      />
-
-      {modoIngreso === 'automatico' ? (
-        <>
-          <label style={{ fontWeight: 'bold' }}>Ingredientes:</label>
-          <textarea
-            rows={5}
-            placeholder="Ej: 2 rebanadas de pan\n90g de pollo\n15g de lechuga"
-            value={ingredientes}
-            onChange={(e) => setIngredientes(e.target.value)}
-            style={{ width: '100%', padding: '0.6rem', marginBottom: '1rem', borderRadius: '6px', border: '1px solid #ccc' }}
-          />
-        </>
-      ) : (
-        <>
-          <label style={{ fontWeight: 'bold' }}>Calorías (kcal):</label>
+        <div className="form-group">
+          <label>Título de la comida:</label>
           <input
-            type="number"
-            placeholder="Ej. 230"
-            value={calorias}
-            onChange={(e) => setCalorias(e.target.value)}
-            style={{ width: '100%', padding: '0.6rem', marginBottom: '1rem', borderRadius: '6px', border: '1px solid #ccc' }}
-          />
-        </>
-      )}
-
-      <label style={{ fontWeight: 'bold' }}>Foto (opcional):</label>
-      <input
-        type="file"
-        accept="image/*"
-        onChange={manejarArchivo}
-        style={{ display: 'block', marginBottom: '1rem' }}
-      />
-
-      {fotoBase64 && (
-        <div style={{ marginBottom: '1rem' }}>
-          <img
-            src={fotoBase64}
-            alt="Vista previa"
-            width="120"
-            style={{ borderRadius: '10px', border: '2px solid #c8e6c9' }}
+            type="text"
+            placeholder="Ej. Sándwich de pollo"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-      )}
 
-      <button
-        onClick={enviar}
-        style={{ backgroundColor: '#43a047', padding: '0.7rem 1.2rem', borderRadius: '8px', fontWeight: 'bold' }}
-      >
-        Registrar comida
-      </button>
+        {modoIngreso === 'automatico' ? (
+          <div className="form-group">
+            <label>Ingredientes (uno por línea):</label>
+            <textarea
+              rows={5}
+              placeholder="Ej: 2 rebanadas de pan\n90g de pollo\n15g de lechuga"
+              value={ingredientes}
+              onChange={(e) => setIngredientes(e.target.value)}
+            />
+          </div>
+        ) : (
+          <div className="form-group">
+            <label>Calorías (kcal):</label>
+            <input
+              type="number"
+              placeholder="Ej. 230"
+              value={calorias}
+              onChange={(e) => setCalorias(e.target.value)}
+            />
+          </div>
+        )}
+
+        <div className="form-group">
+          <label>Foto (opcional):</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={manejarArchivo}
+          />
+        </div>
+
+        {fotoBase64 && (
+          <div className="image-preview">
+            <img
+              src={fotoBase64}
+              alt="Vista previa"
+            />
+          </div>
+        )}
+
+        <button 
+          onClick={enviar} 
+          disabled={loading}
+          className="submit-button"
+        >
+          {loading ? 'Registrando...' : 'Registrar comida'}
+        </button>
+      </div>
     </div>
   );
 }
