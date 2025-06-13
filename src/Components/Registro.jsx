@@ -1,7 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import "./Auth.css";
+import "./Alerta.css"
 
 export default function RegistroForm({ onRegistrado }) {
   const [form, setForm] = useState({
@@ -23,7 +25,19 @@ export default function RegistroForm({ onRegistrado }) {
   };
 
   const volverALogin = () => {
-    navigate('/login');
+    if (!loading) {
+      navigate('/login');
+    }
+  };
+
+  const mostrarError = (mensaje) => {
+    Swal.fire({
+      title: 'Error',
+      text: mensaje,
+      icon: 'error',
+      confirmButtonText: 'Entendido',
+      confirmButtonColor: '#2c3e50',
+    });
   };
 
   const enviar = async (e) => {
@@ -42,13 +56,18 @@ export default function RegistroForm({ onRegistrado }) {
       );
       
       if (response.status >= 200 && response.status < 300) {
-        alert("Cuenta creada con éxito");
-        // Redirige al login después de 1.5 segundos
-        setTimeout(() => {
-          navigate('/login');
-        }, 1500);
+        await Swal.fire({
+          title: '¡Registro exitoso!',
+          text: 'Tu cuenta ha sido creada correctamente',
+          icon: 'success',
+          confirmButtonText: 'Ir al login',
+          confirmButtonColor: '#2c3e50',
+          timer: 3000,
+          timerProgressBar: true,
+        });
         
-        // Llama a la función de callback si existe
+        navigate('/login');
+        
         if (onRegistrado) {
           onRegistrado();
         }
@@ -59,6 +78,7 @@ export default function RegistroForm({ onRegistrado }) {
                           Object.values(err.response.data.errors).join(", ") : 
                           "Error al registrar");
       setError(errorMessage);
+      mostrarError(errorMessage);
     } finally {
       setLoading(false);
     }

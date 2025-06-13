@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default function ComidaForm({ onComidaRegistrada, usuarioId }) {
   const [modoIngreso, setModoIngreso] = useState('automatico');
@@ -33,6 +34,28 @@ export default function ComidaForm({ onComidaRegistrada, usuarioId }) {
     return local.toISOString().slice(0, 10);
   }
 
+  const mostrarExito = () => {
+    Swal.fire({
+      title: '¡Comida registrada!',
+      text: 'La comida se ha registrado correctamente',
+      icon: 'success',
+      confirmButtonText: 'Entendido',
+      confirmButtonColor: '#2c3e50',
+      timer: 2000,
+      timerProgressBar: true,
+    });
+  };
+
+  const mostrarError = (mensaje) => {
+    Swal.fire({
+      title: 'Error',
+      text: mensaje || 'Ocurrió un error al registrar la comida',
+      icon: 'error',
+      confirmButtonText: 'Entendido',
+      confirmButtonColor: '#2c3e50',
+    });
+  };
+
   const enviar = async () => {
     setLoading(true);
     const fecha = obtenerFechaLocal();
@@ -50,23 +73,42 @@ export default function ComidaForm({ onComidaRegistrada, usuarioId }) {
         .split('\n')
         .map((i) => i.trim())
         .filter((i) => i.length > 0);
+      
+      if (listaIngredientes.length === 0) {
+        mostrarError('Debes ingresar al menos un ingrediente');
+        setLoading(false);
+        return;
+      }
+      
       body.ingredientes = listaIngredientes;
     } else {
       url += '/manual';
+      if (!calorias || isNaN(calorias)) {
+        mostrarError('Debes ingresar un valor válido para las calorías');
+        setLoading(false);
+        return;
+      }
       body.calorias = parseFloat(calorias);
     }
 
     try {
-      await axios.post(url, body);
-      alert('Comida registrada correctamente');
-      onComidaRegistrada();
-      setTitle('');
-      setIngredientes('');
-      setFotoBase64(null);
-      setCalorias('');
+      const response = await axios.post(url, body);
+      
+      if (response.status >= 200 && response.status < 300) {
+        mostrarExito();
+        onComidaRegistrada();
+        setTitle('');
+        setIngredientes('');
+        setFotoBase64(null);
+        setCalorias('');
+      }
     } catch (error) {
       console.error(error);
-      alert('Error al registrar comida');
+      const errorMessage = error.response?.data?.message || 
+                         (error.response?.data?.errors ? 
+                          Object.values(error.response.data.errors).join(", ") : 
+                          "Error al registrar la comida");
+      mostrarError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -95,6 +137,7 @@ export default function ComidaForm({ onComidaRegistrada, usuarioId }) {
             placeholder="Ej. Sándwich de pollo"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            required
           />
         </div>
 
@@ -106,6 +149,7 @@ export default function ComidaForm({ onComidaRegistrada, usuarioId }) {
               placeholder="Ej: 2 rebanadas de pan\n90g de pollo\n15g de lechuga"
               value={ingredientes}
               onChange={(e) => setIngredientes(e.target.value)}
+              required
             />
           </div>
         ) : (
@@ -116,6 +160,8 @@ export default function ComidaForm({ onComidaRegistrada, usuarioId }) {
               placeholder="Ej. 230"
               value={calorias}
               onChange={(e) => setCalorias(e.target.value)}
+              required
+              min="1"
             />
           </div>
         )}
@@ -143,7 +189,13 @@ export default function ComidaForm({ onComidaRegistrada, usuarioId }) {
           disabled={loading}
           className="submit-button"
         >
-          {loading ? 'Registrando...' : 'Registrar comida'}
+          {loading ? (
+            <>
+              <span className="spinner"></span> Registrando...
+            </>
+          ) : (
+            'Registrar comida'
+          )}
         </button>
       </div>
     </div>

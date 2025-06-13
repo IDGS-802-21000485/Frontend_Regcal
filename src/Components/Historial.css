@@ -1,107 +1,244 @@
-/* Historial.css */
-
-.historial {
-  background: #f5fff5;
+/* Contenedor principal */
+.historial-container {
+  max-width: 800px;
+  margin: 0 auto;
   padding: 1.5rem;
+  background: white;
   border-radius: 12px;
-  margin-top: 2rem;
-  box-shadow: 0 2px 8px rgba(0, 100, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
+.historial-header {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.historial-header h2 {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+/* Navegación semanal */
 .navegacion-semanal {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
-  background-color: #e8f5e9;
-  padding: 0.8rem 1.2rem;
-  border-radius: 10px;
-  border: 1px solid #c8e6c9;
+  margin-bottom: 1.5rem;
 }
 
-.navegacion-semanal button {
-  background: #43a047;
-  color: white;
-  border: none;
-  border-radius: 6px;
+.nav-button {
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   padding: 0.5rem 1rem;
-  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.2s ease;
 }
 
-.navegacion-semanal button:hover {
-  background: #2e7d32;
+.nav-button:hover {
+  background: #e9ecef;
 }
 
-.navegacion-semanal span {
+.semana-indicador {
   font-size: 1.1rem;
-  color: #2e7d32;
+  color: #2c3e50;
 }
 
-.dias {
-  display: flex;
-  flex-wrap: wrap;
+/* Días de la semana */
+.dias-semana {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
   gap: 0.5rem;
   margin-bottom: 1.5rem;
-  justify-content: center;
 }
 
-.dias button {
-  padding: 0.5rem 0.9rem;
-  background: #fffde7;
-  border: 1px solid #fdd835;
+.dia-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.8rem 0.5rem;
+  background: #f8f9fa;
+  border: 1px solid #ddd;
   border-radius: 8px;
   cursor: pointer;
-  font-weight: 500;
-  color: #827717;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
-.dias button:hover {
-  background: #fff176;
-  color: #5d4037;
+.dia-button:hover {
+  background: #e9ecef;
 }
 
-.dias button.activo {
-  background: #2e7d32;
+.dia-button.activo {
+  background: #2c3e50;
   color: white;
-  border: 1px solid #1b5e20;
+  border-color: #2c3e50;
 }
 
+.dia-nombre {
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+
+.dia-fecha {
+  font-size: 0.8rem;
+}
+
+/* Detalle del día */
 .detalle-dia {
-  background: white;
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 1.5rem;
 }
 
+.resumen-dia {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.resumen-dia h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #2c3e50;
+}
+
+.fecha-seleccionada {
+  font-size: 1rem;
+  color: #7f8c8d;
+  font-weight: normal;
+}
+
+.total-calorias {
+  background: #f8f9fa;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.total-calorias strong {
+  color: #2c3e50;
+  margin-left: 0.3rem;
+}
+
+/* Lista de comidas */
 .lista-comidas {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-top: 1rem;
 }
 
-.comida-item {
+.comida-card {
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  background: #f0f4c3;
-  padding: 0.8rem;
+  background: #f8f9fa;
   border-radius: 10px;
-  border: 1px solid #dce775;
-  transition: transform 0.2s ease;
+  overflow: hidden;
+  transition: all 0.2s ease;
 }
 
-.comida-item:hover {
-  transform: scale(1.02);
+.comida-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.comida-item img {
-  width: 70px;
-  height: 70px;
+.comida-imagen {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+}
+
+.comida-imagen img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+}
+
+.comida-info {
+  flex: 1;
+  padding: 0.8rem;
+}
+
+.comida-info h4 {
+  margin: 0 0 0.5rem 0;
+  color: #2c3e50;
+}
+
+.comida-detalle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.calorias {
+  font-weight: bold;
+  color: #e74c3c;
+}
+
+.nutrientes {
+  display: flex;
+  gap: 0.8rem;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
+
+/* Estados */
+.sin-comidas {
+  text-align: center;
+  padding: 2rem;
+  color: #7f8c8d;
+  background: #f8f9fa;
   border-radius: 8px;
-  border: 2px solid #aed581;
+}
+
+.cargando {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.cargando p {
+  margin-top: 1rem;
+  color: #7f8c8d;
+}
+
+.spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid rgba(44, 62, 80, 0.1);
+  border-radius: 50%;
+  border-top-color: #2c3e50;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dias-semana {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.3rem;
+  }
+  
+  .dia-nombre {
+    font-size: 0.8rem;
+  }
+  
+  .dia-fecha {
+    font-size: 0.7rem;
+  }
+  
+  .comida-card {
+    flex-direction: column;
+  }
+  
+  .comida-imagen {
+    width: 100%;
+    height: 120px;
+  }
 }
