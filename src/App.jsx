@@ -7,7 +7,8 @@ import ComidaForm from './Components/ComidaForm';
 import ListaComidas from './Components/ListaComida';
 import CaloriasHoy from './Components/CaloriasHoy';
 import Historial from './Components/Historial';
-import './App.css'; // Asegúrate de tener un archivo CSS para estilos
+import PerfilUsuario from './Components/PerfilUsuario';
+import './App.css';
 
 function App() {
   const recargar = () => window.location.reload();
@@ -20,14 +21,24 @@ function App() {
     }
   }, []);
 
-  const manejarLogin = (usuarioLogeado) => {
+  const manejarLogin = (usuarioLogeado, token) => {
     localStorage.setItem('usuario', JSON.stringify(usuarioLogeado));
+    localStorage.setItem('token', token);
     setUsuario(usuarioLogeado);
   };
 
   const cerrarSesion = () => {
     localStorage.removeItem('usuario');
+    localStorage.removeItem('token');
     setUsuario(null);
+  };
+
+  const actualizarUsuario = (usuarioActualizado, token) => {
+    if (token) {
+      localStorage.setItem('token', token);
+    }
+    localStorage.setItem('usuario', JSON.stringify(usuarioActualizado));
+    setUsuario(usuarioActualizado);
   };
 
   return (
@@ -41,7 +52,7 @@ function App() {
         
         <Route path="/registro" element={
           usuario ? <Navigate to="/" /> : 
-          <Registro onVolverLogin={() => window.location.href = '/login'} />
+          <Registro onRegistrado={() => window.location.href = '/login'} />
         } />
         
         {/* Ruta raíz protegida */}
@@ -62,6 +73,20 @@ function App() {
           usuario ? (
             <MainLayout usuario={usuario} onSalir={cerrarSesion}>
               <Historial usuarioId={usuario._id} />
+            </MainLayout>
+          ) : (
+            <Navigate to="/login" />
+          )
+        } />
+
+        {/* Nueva ruta de perfil de usuario */}
+        <Route path="/perfil" element={
+          usuario ? (
+            <MainLayout usuario={usuario} onSalir={cerrarSesion}>
+              <PerfilUsuario 
+                usuario={usuario} 
+                onUsuarioActualizado={actualizarUsuario} 
+              />
             </MainLayout>
           ) : (
             <Navigate to="/login" />
