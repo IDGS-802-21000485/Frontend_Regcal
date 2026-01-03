@@ -14,6 +14,8 @@ export default function Navbar({ usuario, onSalir }) {
         {usuario && (
           <Link to="/perfil" className="nav-link">Mi Perfil</Link>
         )}
+        <Link to="/recetas" className="nav-link">Recetas</Link>
+        <Link to="/ingredientes" className="nav-link">Ingredientes</Link>
       </div>
       
       {usuario && (
