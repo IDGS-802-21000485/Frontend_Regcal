@@ -63,9 +63,9 @@ export default function IngredienteForm({ usuarioId, onGuardado }) {
 
       await Swal.fire({
         title: "Ingrediente guardado",
-        text: "El ingrediente fue registrado correctamente (valores por 100g/ml)",
+        text: "Valores registrados por 100g / 100ml",
         icon: "success",
-        confirmButtonColor: "#2c3e50"
+        confirmButtonColor: "#2c3e50",
       });
 
       setForm({
@@ -79,15 +79,13 @@ export default function IngredienteForm({ usuarioId, onGuardado }) {
         imagen: null,
       });
 
-      if (onGuardado) onGuardado();
+      onGuardado?.();
     } catch (err) {
-      const mensaje =
-        err.response?.data?.message ||
-        "Error al registrar el ingrediente";
-
       Swal.fire({
         title: "Error",
-        text: mensaje,
+        text:
+          err.response?.data?.message ||
+          "Error al registrar el ingrediente",
         icon: "error",
         confirmButtonColor: "#c0392b",
       });
@@ -98,75 +96,106 @@ export default function IngredienteForm({ usuarioId, onGuardado }) {
 
   return (
     <div className="form-card">
-      <h3>Registrar ingrediente (por 100g / 100ml)</h3>
+      <h3>🥬 Nuevo ingrediente</h3>
+      <p style={{ opacity: 0.7, marginBottom: 16 }}>
+        Valores nutricionales por 100g / 100ml
+      </p>
 
       <form onSubmit={enviar}>
-        <input
-          type="text"
-          name="nombre"
-          placeholder="Nombre del ingrediente"
-          value={form.nombre}
-          onChange={actualizar}
-          required
-        />
+        {/* Nombre */}
+        <div className="form-group">
+          <label>Nombre del ingrediente</label>
+          <input
+            type="text"
+            name="nombre"
+            placeholder="Ej. Pechuga de pollo"
+            value={form.nombre}
+            onChange={actualizar}
+            required
+          />
+        </div>
 
-        <select
-          name="unidadBase"
-          value={form.unidadBase}
-          onChange={actualizar}
-        >
-          <option value="g">Gramos (g)</option>
-          <option value="ml">Mililitros (ml)</option>
-        </select>
+        {/* Unidad */}
+        <div className="form-group">
+          <label>Unidad base</label>
+          <select
+            name="unidadBase"
+            value={form.unidadBase}
+            onChange={actualizar}
+          >
+            <option value="g">Gramos (g)</option>
+            <option value="ml">Mililitros (ml)</option>
+          </select>
+        </div>
 
-        <input
-          type="number"
-          name="calories"
-          placeholder="Calorías"
-          value={form.calories}
-          onChange={actualizar}
-          required
-        />
+        <hr />
 
-        <input
-          type="number"
-          name="proteins"
-          placeholder="Proteínas (g)"
-          value={form.proteins}
-          onChange={actualizar}
-          required
-        />
+        {/* Nutrición */}
+        <h4>Información nutricional</h4>
 
-        <input
-          type="number"
-          name="fats"
-          placeholder="Grasas (g)"
-          value={form.fats}
-          onChange={actualizar}
-          required
-        />
+        <div className="form-group">
+          <label>Calorías</label>
+          <input
+            type="number"
+            name="calories"
+            placeholder="kcal"
+            value={form.calories}
+            onChange={actualizar}
+            required
+          />
+        </div>
 
-        <input
-          type="number"
-          name="carbs"
-          placeholder="Carbohidratos (g)"
-          value={form.carbs}
-          onChange={actualizar}
-          required
-        />
+        <div className="form-group">
+          <label>Proteínas (g)</label>
+          <input
+            type="number"
+            name="proteins"
+            value={form.proteins}
+            onChange={actualizar}
+            required
+          />
+        </div>
 
-        <input
-          type="number"
-          name="sugars"
-          placeholder="Azúcares (g)"
-          value={form.sugars}
-          onChange={actualizar}
-          required
-        />
+        <div className="form-group">
+          <label>Grasas (g)</label>
+          <input
+            type="number"
+            name="fats"
+            value={form.fats}
+            onChange={actualizar}
+            required
+          />
+        </div>
 
-        <input type="file" accept="image/*" onChange={manejarImagen} />
+        <div className="form-group">
+          <label>Carbohidratos (g)</label>
+          <input
+            type="number"
+            name="carbs"
+            value={form.carbs}
+            onChange={actualizar}
+            required
+          />
+        </div>
 
-        <button type="submit" disabled={loading}>
+        <div className="form-group">
+          <label>Azúcares (g)</label>
+          <input
+            type="number"
+            name="sugars"
+            value={form.sugars}
+            onChange={actualizar}
+            required
+          />
+        </div>
+
+        {/* Imagen */}
+        <div className="form-group">
+          <label>Imagen (opcional)</label>
+          <input type="file" accept="image/*" onChange={manejarImagen} />
+        </div>
+
+        <button type="submit" disabled={loading} className="btn-primary">
           {loading ? "Guardando..." : "Guardar ingrediente"}
         </button>
       </form>
