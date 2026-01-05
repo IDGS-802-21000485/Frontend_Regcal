@@ -6,29 +6,59 @@ import "./Recetas.css";
 
 export default function RecetasPage({ usuarioId }) {
   const [recetas, setRecetas] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const cargar = async () => {
-    const res = await axios.get(
-      `https://backend-regcal.onrender.com/api/recetas?usuarioId=${usuarioId}`
-    );
-    setRecetas(res.data);
+  const cargarRecetas = async () => {
+    if (!usuarioId) return;
+
+    try {
+      setLoading(true);
+      const res = await axios.get(
+        "https://backend-regcal.onrender.com/api/recetas",
+        {
+          params: { usuarioId },
+        }
+      );
+      setRecetas(res.data);
+    } catch (error) {
+      console.error("Error al cargar recetas", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    cargar();
-  }, []);
+    cargarRecetas();
+  }, [usuarioId]);
 
   return (
     <div className="page-container">
       <h2>🍽️ Recetas</h2>
 
-      <RecetaForm usuarioId={usuarioId} onGuardado={cargar} />
+      {/* Formulario */}
+      <RecetaForm
+        usuarioId={usuarioId}
+                onRecetaGuardada={cargarRecetas} // 🔥 refresca al guardar
+      />
 
-      <div className="grid">
-        {recetas.map((r) => (
-          <RecetaCard key={r._id} receta={r} />
-        ))}
-      </div>
+      {/* Lista */}
+      {loading ? (
+        <p>Cargando recetas...</p>
+      ) : (
+        <div className="grid">
+          {recetas.length === 0 ? (
+            <p>No hay recetas registradas</p>
+          ) : (
+            recetas.map((receta) => (
+              <RecetaCard
+                key={receta._id}
+                receta={receta}
+                onEliminada={cargarRecetas} // 🔥 refresca al eliminar
+              />
+            ))
+          )}
+        </div>
+      )}
     </div>
   );
 }

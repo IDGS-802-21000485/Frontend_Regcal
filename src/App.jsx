@@ -16,6 +16,7 @@ import Historial from "./Components/Historial";
 import PerfilUsuario from "./Components/PerfilUsuario";
 import RecetasPage from "./Components/Recetas/RecetasPage";
 import IngredientesPage from "./Components/Recetas/IngredientesPage";
+import ProductosProcesadosPage from "./Components/Alimentos/AlimentosPage";
 import "./App.css";
 
 function App() {
@@ -52,7 +53,6 @@ function App() {
   return (
     <Router>
       <Routes>
-
         {/* ================= RUTAS PÚBLICAS ================= */}
         <Route
           path="/login"
@@ -67,7 +67,9 @@ function App() {
             usuario ? (
               <Navigate to="/" />
             ) : (
-              <Registro onRegistrado={() => (window.location.href = "/login")} />
+              <Registro
+                onRegistrado={() => (window.location.href = "/login")}
+              />
             )
           }
         />
@@ -130,7 +132,7 @@ function App() {
           element={
             usuario ? (
               <MainLayout usuario={usuario} onSalir={cerrarSesion}>
-                <RecetasPage usuarioId={usuario._id} />
+                <RecetasPage usuarioId={usuario._id} onCambio={recargar}/>
               </MainLayout>
             ) : (
               <Navigate to="/login" />
@@ -143,7 +145,7 @@ function App() {
           element={
             usuario ? (
               <MainLayout usuario={usuario} onSalir={cerrarSesion}>
-                <IngredientesPage usuarioId={usuario._id} />
+                <IngredientesPage usuarioId={usuario._id} onCambio={recargar}/>
               </MainLayout>
             ) : (
               <Navigate to="/login" />
@@ -151,6 +153,22 @@ function App() {
           }
         />
 
+        {/* 🏷️ Productos procesados */}
+        <Route
+          path="/productos-procesados"
+          element={
+            usuario ? (
+              <MainLayout usuario={usuario} onSalir={cerrarSesion}>
+                <ProductosProcesadosPage
+                  usuarioId={usuario._id}
+                  onCambio={recargar}
+                />
+              </MainLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
       </Routes>
     </Router>
   );

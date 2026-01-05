@@ -1,34 +1,81 @@
-import { Link } from 'react-router-dom';
-import './Navbar.css';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import "./Navbar.css";
 
 export default function Navbar({ usuario, onSalir }) {
+  const [abierto, setAbierto] = useState(false);
+
+  const cerrarMenu = () => setAbierto(false);
+
   return (
-    <nav className="navbar-container">
-      <div className="navbar-brand">
-        <Link to="/">RegCal 🍽️</Link>
-      </div>
-      
-      <div className="navbar-links">
-        <Link to="/" className="nav-link">Inicio</Link>
-        <Link to="/historial" className="nav-link">Historial</Link>
-        {usuario && (
-          <Link to="/perfil" className="nav-link">Mi Perfil</Link>
-        )}
-        <Link to="/recetas" className="nav-link">Recetas</Link>
-        <Link to="/ingredientes" className="nav-link">Ingredientes</Link>
-      </div>
-      
-      {usuario && (
-        <div className="user-section">
-          <div className="user-info">
-            <span className="user-name">{usuario.nombre || usuario.email.split('@')[0]}</span>
-            <span className="user-email">{usuario.email}</span>
-          </div>
-          <button onClick={onSalir} className="logout-button">
-            Cerrar sesión
-          </button>
+    <>
+      {/* ================= MOBILE TOP BAR ================= */}
+      <header className="topbar">
+        <button className="hamburger" onClick={() => setAbierto(true)}>
+          ☰
+        </button>
+
+        <Link to="/" className="brand">
+          RegCal 🍽️
+        </Link>
+      </header>
+
+      {/* Overlay móvil */}
+      {abierto && <div className="overlay" onClick={cerrarMenu} />}
+
+      {/* ================= SIDEBAR (MÓVIL) ================= */}
+      <aside className={`sidebar ${abierto ? "open" : ""}`}>
+        <div className="sidebar-header">
+          <h3>Menú</h3>
+          <button className="close-btn" onClick={cerrarMenu}>✕</button>
         </div>
-      )}
-    </nav>
+
+        <nav className="sidebar-links">
+          <Link to="/" onClick={cerrarMenu}>🏠 Inicio</Link>
+          <Link to="/historial" onClick={cerrarMenu}>📅 Historial</Link>
+          <Link to="/recetas" onClick={cerrarMenu}>🍽️ Recetas</Link>
+          <Link to="/ingredientes" onClick={cerrarMenu}>🥬 Ingredientes</Link>
+          <Link to="/productos-procesados" onClick={cerrarMenu}>🏷️ Productos</Link>
+          <Link to="/perfil" onClick={cerrarMenu}>👤 Mi Perfil</Link>
+        </nav>
+
+        {usuario && (
+          <div className="sidebar-footer">
+            <div className="user-info">
+              <strong>{usuario.nombre || usuario.email.split("@")[0]}</strong>
+              <small>{usuario.email}</small>
+            </div>
+
+            <button className="logout-btn" onClick={onSalir}>
+              Cerrar sesión
+            </button>
+          </div>
+        )}
+      </aside>
+
+      {/* ================= DESKTOP NAVBAR ================= */}
+      <nav className="navbar-desktop">
+        <div className="navbar-left">
+          <Link to="/" className="brand">RegCal 🍽️</Link>
+
+          <Link to="/">Inicio</Link>
+          <Link to="/historial">Historial</Link>
+          <Link to="/recetas">Recetas</Link>
+          <Link to="/ingredientes">Ingredientes</Link>
+          <Link to="/productos-procesados">Productos</Link>
+        </div>
+
+        {usuario && (
+          <div className="navbar-right">
+            <Link to="/perfil" className="perfil-link">
+              {usuario.nombre || usuario.email.split("@")[0]}
+            </Link>
+            <button className="logout-button" onClick={onSalir}>
+              Cerrar sesión
+            </button>
+          </div>
+        )}
+      </nav>
+    </>
   );
 }

@@ -15,11 +15,17 @@ export default function RecetaCard({ receta, onEliminada }) {
 
     if (!confirm.isConfirmed) return;
 
+    try {
       await axios.delete(
         `https://backend-regcal.onrender.com/api/recetas/${receta._id}`
       );
-      Swal.fire("Eliminada", "Receta eliminada", "success");
-      onEliminada();
+
+      Swal.fire("Eliminada", "Receta eliminada correctamente", "success");
+
+      if (onEliminada) onEliminada(); // 🔥 refresca la lista
+    } catch (error) {
+      Swal.fire("Error", "No se pudo eliminar la receta", "error");
+    }
   };
 
   return (
@@ -31,7 +37,11 @@ export default function RecetaCard({ receta, onEliminada }) {
       )}
 
       <h4>{receta.nombre}</h4>
-      <p>{receta.calorias} kcal</p>
+
+      <p>
+        🔥 {receta.nutricional.calories} kcal <br />
+        🥩 {receta.nutricional.proteins} g proteína
+      </p>
     </div>
   );
 }

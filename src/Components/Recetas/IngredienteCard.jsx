@@ -1,8 +1,8 @@
 import Swal from "sweetalert2";
 import axios from "axios";
 
-
 export default function IngredienteCard({ ingrediente, onEliminado }) {
+
   const eliminar = async () => {
     const confirm = await Swal.fire({
       title: "¿Eliminar ingrediente?",
@@ -16,12 +16,19 @@ export default function IngredienteCard({ ingrediente, onEliminado }) {
 
     if (!confirm.isConfirmed) return;
 
+    try {
       await axios.delete(
         `https://backend-regcal.onrender.com/api/ingredientes/${ingrediente._id}`
       );
 
-      Swal.fire("Eliminado", "Ingrediente eliminado", "success");
-      onEliminado();
+      await Swal.fire("Eliminado", "Ingrediente eliminado", "success");
+
+      // ✅ AVISA AL PADRE
+      if (onEliminado) onEliminado();
+
+    } catch (error) {
+      Swal.fire("Error", "No se pudo eliminar", "error");
+    }
   };
 
   return (
